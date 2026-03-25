@@ -3,7 +3,7 @@
 
 
 
-### 1.1. Setup Inicial
+### 1.1. Setup Inicial [x]
 
 - **Objetivo de la feature:** Crear el esqueleto de directorios y archivos base del proyecto en Vanilla JS, sin frameworks ni bundlers.
 
@@ -51,7 +51,7 @@
 
 
 
-### 2.1. Maquetado de Interfaz Blueprint
+### 2.1. Maquetado de Interfaz Blueprint [x]
 
 - **Objetivo de la feature:** Crear un layout que imite el estilo visual de diseño técnico o "Blueprint", dividido en 3 grandes secciones: Controles, Resultados, y Visualización.
 
