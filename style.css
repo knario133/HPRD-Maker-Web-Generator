@@ -55,6 +55,74 @@ body {
     padding-bottom: 0.5rem;
 }
 
+/* Inputs y Formularios */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.input-group label {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.input-group input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+    border-color: var(--line-color);
+}
+
+.sub-heading {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin: 1rem 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tooltip {
+    cursor: help;
+    font-size: 0.9rem;
+    color: var(--line-color);
+}
+
+/* Alertas */
+.alert-box {
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    display: none;
+}
+
+.alert-box:not(.hidden) {
+    display: block;
+}
+
+.alert-error {
+    background-color: rgba(220, 38, 38, 0.2);
+    border: 1px solid rgba(220, 38, 38, 0.5);
+    color: #fca5a5;
+}
+
+.alert-warning {
+    background-color: rgba(217, 119, 6, 0.2);
+    border: 1px solid rgba(217, 119, 6, 0.5);
+    color: #fcd34d;
+}
+
 /* Paneles internos */
 .panel {
     display: flex;

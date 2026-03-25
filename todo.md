@@ -79,7 +79,7 @@
 
 
 
-### 3.1. Campos de Entrada (Geometría Base)
+### 3.1. Campos de Entrada (Geometría Base) [x]
 
 - **Objetivo de la feature:** Proveer los campos donde el usuario ingresará los parámetros fundamentales del generador.
 
@@ -105,7 +105,7 @@
 
 
 
-### 3.2. Configuración de Tolerancias para Impresión 3D
+### 3.2. Configuración de Tolerancias para Impresión 3D [x]
 
 - **Objetivo de la feature:** Incorporar un panel secundario de inputs para compensar la contracción/expansión del material impreso (PETG, PLA, etc).
 
@@ -133,7 +133,7 @@
 
 
 
-### 4.1. Motor Matemático Central (Cinemática y Geometría)
+### 4.1. Motor Matemático Central (Cinemática y Geometría) [x]
 
 - **Objetivo de la feature:** Calcular todos los parámetros derivados (longitudes, radios, semiejes) desde los 4 inputs de geometría usando funciones puras en Javascript.
 
@@ -159,7 +159,7 @@
 
 
 
-### 4.2. Reglas de Negocio y Restricciones
+### 4.2. Reglas de Negocio y Restricciones [x]
 
 - **Objetivo de la feature:** Prevenir y avisar al usuario cuando las combinaciones numéricas generen una colisión matemática o una pieza imposible de ensamblar.
 
