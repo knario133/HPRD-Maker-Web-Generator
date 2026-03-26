@@ -191,7 +191,7 @@
 
 
 
-### 5.1. Generación y renderizado de SVG
+### 5.1. Generación y renderizado de SVG [x]
 
 - **Objetivo de la feature:** Dibujar una versión estilizada (azul/blanco) y estática del mecanismo a escala, para previsualizar los pines, el rotor y los anillos.
 
@@ -225,7 +225,7 @@
 
 
 
-### 6.1. Panel de Salida y Variables CAD
+### 6.1. Panel de Salida y Variables CAD [x]
 
 - **Objetivo de la feature:** Exponer de forma legible los números y cotas a insertar en software externo (Fusion 360).
 
@@ -249,7 +249,7 @@
 
 
 
-### 6.2. Persistencia Inmediata
+### 6.2. Persistencia Inmediata [x]
 
 - **Objetivo de la feature:** Guardar la sesión automáticamente, para que los usuarios no pierdan su configuración al recargar la página.
 

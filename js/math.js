@@ -45,6 +45,47 @@ export function calculateRatioOutFix(zi, za) {
 }
 
 /**
+ * Calcula la relación de reducción cuando el anillo interno está fijo (InFix).
+ * @param {number} zi - Dientes Corona Interna
+ * @param {number} za - Dientes Corona Externa
+ * @returns {number} Relación de reducción (InFix)
+ */
+export function calculateRatioInFix(zi, za) {
+    return za / (za - zi);
+}
+
+/**
+ * Calcula el semieje mayor (majorAxis)
+ * usando la aproximación del perímetro elíptico base: s / (PI * (1 + x/y))
+ * @param {number} trackLength - Longitud de arco de pista
+ * @param {number} semiaxisRatio - Relación de semiejes
+ * @returns {number} Semieje mayor
+ */
+export function calculateMajorAxis(trackLength, semiaxisRatio) {
+    return trackLength / (Math.PI * (1 + semiaxisRatio));
+}
+
+/**
+ * Calcula el semieje menor (minorAxis)
+ * @param {number} majorAxis - Semieje mayor
+ * @param {number} semiaxisRatio - Relación de semiejes
+ * @returns {number} Semieje menor
+ */
+export function calculateMinorAxis(majorAxis, semiaxisRatio) {
+    return majorAxis * semiaxisRatio;
+}
+
+/**
+ * Calcula la carrera radial (radialStroke)
+ * @param {number} majorAxis - Semieje mayor
+ * @param {number} minorAxis - Semieje menor
+ * @returns {number} Carrera radial
+ */
+export function calculateRadialStroke(majorAxis, minorAxis) {
+    return majorAxis - minorAxis;
+}
+
+/**
  * Calcula la cinemática completa a partir del estado.
  * @param {Object} inputs - Objeto con zi, za, dp, p
  * @returns {Object} Objeto Kinematics
@@ -55,12 +96,20 @@ export function calculateKinematics(inputs) {
     const trackLength = calculateTrackLength(np, p);
     const semiaxisRatio = calculateSemiaxisRatio(zi, za);
     const ratioOutFix = calculateRatioOutFix(zi, za);
+    const ratioInFix = calculateRatioInFix(zi, za);
+    const majorAxis = calculateMajorAxis(trackLength, semiaxisRatio);
+    const minorAxis = calculateMinorAxis(majorAxis, semiaxisRatio);
+    const radialStroke = calculateRadialStroke(majorAxis, minorAxis);
 
     return {
         np,
         trackLength,
         semiaxisRatio,
-        ratioOutFix
+        ratioOutFix,
+        ratioInFix,
+        majorAxis,
+        minorAxis,
+        radialStroke
     };
 }
 

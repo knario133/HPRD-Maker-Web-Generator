@@ -1,10 +1,12 @@
 import { checkConstraints, calculateKinematics } from './math.js';
+import { render } from './renderer.js';
+import { saveState, loadState } from './state.js';
 
 /**
  * Objeto Central de Estado
  * Mantiene los valores de toda la aplicación.
  */
-const State = {
+let State = {
     inputs: {
         zi: 40,
         za: 44,
@@ -23,7 +25,29 @@ const State = {
  * Inicialización de la aplicación
  */
 function initApp() {
+    // Intentar cargar estado previo
+    const savedState = loadState();
+    if (savedState && savedState.inputs) {
+        State = savedState;
+        // Poblar el DOM con los valores guardados
+        document.querySelectorAll('input[data-input]').forEach(input => {
+            const prop = input.getAttribute('data-input');
+            if (prop in State.inputs) {
+                input.value = State.inputs[prop];
+            } else if (prop in State.tolerances) {
+                input.value = State.tolerances[prop];
+            }
+        });
+    } else {
+        // Defaults en DOM si no hay State
+        State.inputs.zi = parseFloat(document.getElementById('zi').value) || 40;
+        State.inputs.za = parseFloat(document.getElementById('za').value) || 44;
+        State.inputs.dp = parseFloat(document.getElementById('dp').value) || 3.0;
+        State.inputs.p = parseFloat(document.getElementById('p').value) || 2.0;
+    }
+
     initInputs();
+    initButtons();
     updateStateAndRecalculate();
 }
 
@@ -37,6 +61,62 @@ function initInputs() {
             handleInputChange(e.target);
         });
     });
+}
+
+/**
+ * Inicializa los botones de Exportar e Importar JSON.
+ */
+function initButtons() {
+    const btnExport = document.getElementById('btn-export');
+    const btnImport = document.getElementById('btn-import');
+    const inputImport = document.getElementById('input-import');
+
+    if (btnExport) {
+        btnExport.addEventListener('click', () => {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(State));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "harmonic_pin_ring_drive_config.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        });
+    }
+
+    if (btnImport && inputImport) {
+        btnImport.addEventListener('click', () => {
+            inputImport.click();
+        });
+
+        inputImport.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const loadedState = JSON.parse(evt.target.result);
+                    if (loadedState && loadedState.inputs) {
+                        State = loadedState;
+                        // Repoblar DOM
+                        document.querySelectorAll('input[data-input]').forEach(input => {
+                            const prop = input.getAttribute('data-input');
+                            if (prop in State.inputs) {
+                                input.value = State.inputs[prop];
+                            } else if (prop in State.tolerances) {
+                                input.value = State.tolerances[prop];
+                            }
+                        });
+                        updateStateAndRecalculate();
+                    }
+                } catch (err) {
+                    console.error("Error leyendo archivo JSON:", err);
+                    alert("Error leyendo el archivo. El formato debe ser un JSON de estado válido.");
+                }
+            };
+            reader.readAsText(file);
+        });
+    }
 }
 
 /**
@@ -109,8 +189,32 @@ function updateStateAndRecalculate() {
     // Calcular cinemática
     State.kinematics = calculateKinematics(State.inputs);
 
-    // Aquí (en el futuro) se llamará al renderizado
-    // render(State);
+    updateResults(State);
+    render(State);
+    saveState(State);
+}
+
+/**
+ * Actualiza el panel de resultados numéricos en el DOM.
+ * @param {Object} state - El estado actual de la aplicación.
+ */
+function updateResults(state) {
+    const formatNumber = (num) => (typeof num === 'number' && !Number.isInteger(num)) ? num.toFixed(3) : num;
+    const updateElement = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+    };
+
+    const kin = state.kinematics;
+    if (!kin) return;
+
+    updateElement('res-np', formatNumber(kin.np));
+    updateElement('res-infix', formatNumber(kin.ratioInFix));
+    updateElement('res-outfix', formatNumber(kin.ratioOutFix));
+    updateElement('res-minor-axis', formatNumber(kin.minorAxis));
+    updateElement('res-major-axis', formatNumber(kin.majorAxis));
+    updateElement('res-radial-stroke', formatNumber(kin.radialStroke));
+    updateElement('res-track-length', formatNumber(kin.trackLength));
 }
 
 // Iniciar aplicación cuando se cargue el DOM
