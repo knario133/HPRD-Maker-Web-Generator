@@ -52,19 +52,38 @@
                     <label for="toothClearance">Juego entre dientes (mm):</label>
                     <input type="number" id="toothClearance" data-input="toothClearance" value="0.15" step="0.01">
                 </div>
+
+                <div class="input-group">
+                    <button id="btn-export" type="button">Exportar a JSON</button>
+                    <button id="btn-import" type="button">Importar</button>
+                    <input type="file" id="input-import" accept=".json" style="display:none;">
+                </div>
             </section>
 
             <section class="panel results-panel">
                 <h2>Resultados numéricos</h2>
-                <!-- Aquí irán los resultados en la sección 6 -->
+                <table>
+                    <tbody>
+                        <tr><td>Cantidad de pines ($N_p$)</td><td><span id="res-np">-</span></td></tr>
+                        <tr><td>Relación (InFix)</td><td><span id="res-infix">-</span></td></tr>
+                        <tr><td>Relación (OutFix)</td><td><span id="res-outfix">-</span></td></tr>
+                        <tr><td>Semieje Menor</td><td><span id="res-minor-axis">-</span></td></tr>
+                        <tr><td>Semieje Mayor</td><td><span id="res-major-axis">-</span></td></tr>
+                        <tr><td>Carrera radial</td><td><span id="res-radial-stroke">-</span></td></tr>
+                        <tr><td>Longitud de pista</td><td><span id="res-track-length">-</span></td></tr>
+                    </tbody>
+                </table>
+                <div class="fusion-guide">
+                    <h3>Guía Fusion 360</h3>
+                    <p>Transmitter: Elipse base</p>
+                </div>
             </section>
         </aside>
 
         <!-- Panel Derecho: Lienzo de previsualización 2D -->
         <main class="main-content">
             <div class="canvas-container">
-                <!-- Aquí irá el SVG de previsualización -->
-                <p>Lienzo de previsualización 2D</p>
+                <svg id="viewport" viewBox="-500 -500 1000 1000" style="width: 100%; height: 100%;"></svg>
             </div>
         </main>
     </div>
